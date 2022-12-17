@@ -5,6 +5,11 @@
     "target": "es6",
     "paths": {
       "@/*":["src/*"]
-    }
+    },
   },
+  "emmet.includeLanguages": {
+    "javascript": "javascriptreact",
+    "razor": "html",
+    "plaintext": "pug"
+  }
 }
