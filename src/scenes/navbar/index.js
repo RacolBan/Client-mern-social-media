@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Box, InputBase, Typography, Select, MenuItem, FormControl, useTheme, useMediaQuery, IconButton } from '@mui/material';
 import { Search, Close, Message, DarkMode, LightMode, Notifications, Help, Menu } from '@mui/icons-material';
 import { useDispatch, useSelector } from 'react-redux';
-import { setMode, setLogout } from '../../redux/slice';
+import { setMode, handleLogout } from '../../redux/slice';
 import { useNavigate } from 'react-router-dom';
 import FlexBetween from '../../component/FlexBetween';
 export default function Navbar() {
@@ -11,8 +11,6 @@ export default function Navbar() {
   const navigate = useNavigate();
   const isNonMobileScreen = useMediaQuery('(min-width: 1000px)');
   const theme = useTheme();
-  console.log(theme);
-
   const user = state => state.user;
   const neutralLight = theme.palette.neutral.light;
   const dark = theme.palette.neutral.dark;
@@ -20,6 +18,7 @@ export default function Navbar() {
   const primaryLight = theme.palette.primary.light;
   const alt = theme.palette.background.alt;
   const fullname = `${user.firstName} ${user.lastName}`;
+  console.log(fullname);
   return (
     <FlexBetween padding='1rem 6%' background={alt}>
       <FlexBetween gap='1.75rem'>
@@ -77,7 +76,7 @@ export default function Navbar() {
               <MenuItem value={fullname}>
                 <Typography>{fullname}</Typography>
               </MenuItem>
-              <MenuItem onClick={() => dispatch(setLogout())}> Logout </MenuItem>
+              <MenuItem onClick={() => dispatch(handleLogout())}> Logout </MenuItem>
             </Select>
           </FormControl>
         </FlexBetween >
@@ -134,7 +133,7 @@ export default function Navbar() {
                 <MenuItem value={fullname}>
                   <Typography>{fullname}</Typography>
                 </MenuItem>
-                <MenuItem onClick={() => dispatch(setLogout())}> Logout </MenuItem>
+                <MenuItem onClick={() => dispatch(handleLogout())}> Logout </MenuItem>
               </Select>
             </FormControl>
           </FlexBetween >
