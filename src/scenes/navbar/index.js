@@ -2,25 +2,24 @@ import React, { useState } from 'react'
 import { Box, InputBase, Typography, Select, MenuItem, FormControl, useTheme, useMediaQuery, IconButton } from '@mui/material';
 import { Search, Close, Message, DarkMode, LightMode, Notifications, Help, Menu } from '@mui/icons-material';
 import { useDispatch, useSelector } from 'react-redux';
-import { setMode, handleLogout } from '../../redux/slice';
+import { handleLogout , setMode } from 'redux/slice'
 import { useNavigate } from 'react-router-dom';
-import FlexBetween from '../../component/FlexBetween';
+import FlexBetween from 'component/FlexBetween';
 export default function Navbar() {
   const [isMobileMenuToggled, setIsMobileMenuToggled] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const isNonMobileScreen = useMediaQuery('(min-width: 1000px)');
-  const theme = useTheme();
-  const user = state => state.user;
-  const neutralLight = theme.palette.neutral.light;
-  const dark = theme.palette.neutral.dark;
-  const background = theme.palette.background.default;
-  const primaryLight = theme.palette.primary.light;
-  const alt = theme.palette.background.alt;
+  const { palette } = useTheme();
+  const user = useSelector(state => state.user);
+  const neutralLight = palette.neutral.light;
+  const dark = palette.neutral.dark;
+  const background = palette.background.default;
+  const primaryLight = palette.primary.light;
+  const alt = palette.background.alt;
   const fullname = `${user.firstName} ${user.lastName}`;
-  console.log(fullname);
   return (
-    <FlexBetween padding='1rem 6%' background={alt}>
+    <FlexBetween padding='1rem 6%' backgroundColor={alt}>
       <FlexBetween gap='1.75rem'>
         <Typography
           fontWeight='bold'
@@ -47,9 +46,9 @@ export default function Navbar() {
       {isNonMobileScreen
         ? <FlexBetween gap='2rem'>
           <IconButton onClick={() => dispatch(setMode())}>
-            {theme.palette.dark === 'dark'
+            {palette.mode === 'dark'
               ? <DarkMode sx={{ fontSize: '25px' }} />
-              : <LightMode sx={{ color: 'dark', fontSize: '25px' }} />
+              : <LightMode sx={{ color: dark, fontSize: '25px' }} />
             }
           </IconButton>
           <Message sx={{ fontSize: '25px' }} />
@@ -62,7 +61,7 @@ export default function Navbar() {
                 backgroundColor: neutralLight,
                 width: '150px',
                 borderRadius: '0.25rem',
-                p: '0.25rem',
+                p: '0.25rem 1rem',
                 '& .MuiSvgicon-root': {
                   pr: '0.25rem',
                   width: '3rem',
@@ -76,12 +75,17 @@ export default function Navbar() {
               <MenuItem value={fullname}>
                 <Typography>{fullname}</Typography>
               </MenuItem>
-              <MenuItem onClick={() => dispatch(handleLogout())}> Logout </MenuItem>
+              <MenuItem onClick={() => {dispatch(handleLogout())}}> 
+                Logout 
+              </MenuItem>
             </Select>
           </FormControl>
         </FlexBetween >
-        : <IconButton onClick={() => setIsMobileMenuToggled(!isMobileMenuToggled)}>
-          <Menu />
+        :
+         <IconButton 
+            onClick={() => setIsMobileMenuToggled(!isMobileMenuToggled)}
+          >
+            <Menu />
         </IconButton>
       }
       {/* MOBILE NAV */}
@@ -104,7 +108,7 @@ export default function Navbar() {
           {/* MENU ITEMS */}
           <FlexBetween display='flex' flexDirection='column' justifyContent='center' alignItems='center' gap='2rem'>
             <IconButton onClick={() => dispatch(setMode())} sx={{ fontSize: '25px' }}>
-              {theme.palette.dark === 'dark'
+              {palette.dark === 'dark'
                 ? <DarkMode sx={{ fontSize: '25px' }} />
                 : <LightMode sx={{ color: 'dark', fontSize: '25px' }} />
               }

@@ -1,14 +1,11 @@
 import axios from 'axios';
 const axiosClient = axios.create({
   baseURL: 'http://localhost:8000/',
-  headers: {
-    'Content-Type': 'application/json'
-  }
+ 
 });
 axiosClient.interceptors.request.use((request) => {
   const token = localStorage.getItem('token');
   const accessToken = `Bearer ${token}`;
-  request.headers = request.headers ?? {};
   request.headers.Authorization = accessToken;
   return request;
 }, async error => {

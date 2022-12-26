@@ -17,9 +17,9 @@ function App() {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Routes>
-          <Route path='/*' element={<NotFound />} />
-          <Route path='/' element={<LoginPage />} />
-          <Route path='/home' element={isAuth ? <HomePage /> : <Navigate to='/' />} />
+          <Route path='*' element={<NotFound />} />
+          <Route path='/' element={isAuth ? <HomePage /> : <Navigate to='/login' />}> </Route> 
+          <Route path='/login' element={isAuth ? <Navigate to='/' /> : <LoginPage />} />
           <Route path='/profile/:userId' element={isAuth ? <ProfilePage /> : <Navigate to='/' />} />
         </Routes>
       </ThemeProvider>
