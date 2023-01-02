@@ -3,7 +3,7 @@ const initialState = {
   mode: 'light',
   token: null,
   user: null,
-  post: []
+  posts: []
 };
 export const authSlice = createSlice( {
   name: 'auth',
@@ -30,9 +30,11 @@ export const authSlice = createSlice( {
       state.posts = action.payload.posts;
     },
     setPost: (state, action) => {
-      const updatePosts = state.post.map( post => {
-        if( post._id === action.payload.post_id ) return action.payload.post 
-          return post
+      const updatePosts = state.posts.map( post => {
+        if( post._id === action.payload.post._id ) {
+          return action.payload.post 
+        };
+          return post;
       });
       state.posts = updatePosts;
     }

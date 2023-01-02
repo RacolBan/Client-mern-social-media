@@ -3,7 +3,7 @@ import { ManageAccountsOutlined, EditOutlined, LocationOnOutlined, WorkOutlineOu
 import UserImage from 'component/UserImage';
 import WidgetWrapper from 'component/WidgetWrapper';
 import FlexBetween from 'component/FlexBetween';
-import { useEffect, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import axiosClient from 'api/api.config';
 import { useNavigate } from 'react-router-dom';
 
@@ -67,6 +67,7 @@ const UserWidget = ({ userId, picturePath }) => {
           <Typography color={medium} >{occupation}</Typography>
         </Box>
       </Box>
+      <Divider />
       {/* THIRD ROW */}
       <Box p='1rem 0' >
         <FlexBetween mb='0.5rem'>
@@ -78,6 +79,7 @@ const UserWidget = ({ userId, picturePath }) => {
           <Typography color={main} fontWeight='500' >{impressions}</Typography>
         </FlexBetween>
       </Box>
+      <Divider />
       {/* FOURTH ROW */}
       <Box p='1rem 0'>
         <Typography fontSize='1rem' color={main} fontWeight='500' mb='1rem'>Social Profile</Typography>
@@ -103,8 +105,7 @@ const UserWidget = ({ userId, picturePath }) => {
           <EditOutlined sx={{ color: main }} />
         </FlexBetween>
       </Box>
-
     </WidgetWrapper>
   )
 };
-export default UserWidget;
+export default memo(UserWidget);

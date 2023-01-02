@@ -15,7 +15,10 @@ axiosClient.interceptors.response.use(async res => {
   return await Promise.resolve(res);
 }, async err => {
   if (err.response.status === 401) {
-    window.location.pathname = 'App/login';
+    window.location.pathname = '/';
+  }
+  if(err.response.status === 404) {
+    window.location.pathname = '/error-data'
   }
   return await Promise.reject(err);
 });

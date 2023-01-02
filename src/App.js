@@ -8,6 +8,7 @@ import {CssBaseline, ThemeProvider } from '@mui/material';
 import { createTheme } from '@mui/material/styles';
 import { themeSettings } from './theme';
 import NotFound from './scenes/notfound/NotFound';
+import NotFoundData from 'scenes/notfound/NotFoundData';
 function App() {
   const mode = useSelector(state => state.mode);
   const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
@@ -18,6 +19,7 @@ function App() {
         <CssBaseline />
         <Routes>
           <Route path='*' element={<NotFound />} />
+          <Route path='/error-data' element={<NotFoundData />} />
           <Route path='/' element={isAuth ? <HomePage /> : <Navigate to='/login' />}> </Route> 
           <Route path='/login' element={isAuth ? <Navigate to='/' /> : <LoginPage />} />
           <Route path='/profile/:userId' element={isAuth ? <ProfilePage /> : <Navigate to='/' />} />

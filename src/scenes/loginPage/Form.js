@@ -64,7 +64,6 @@ export default function Form() {
   const login = async (values, onSubmitProps) => {
     try {
       const dataLogin = {email: values.email, password: values.password};
-      console.log(dataLogin);
       const { data } = await axiosClient.post('/auth/login', dataLogin )
       onSubmitProps.resetForm();
       dispatch(handleLogin({ user: data.user, token: data.token }));

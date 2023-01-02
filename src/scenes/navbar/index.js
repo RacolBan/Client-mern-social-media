@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Box, InputBase, Typography, Select, MenuItem, FormControl, useTheme, useMediaQuery, IconButton } from '@mui/material';
 import { Search, Close, Message, DarkMode, LightMode, Notifications, Help, Menu } from '@mui/icons-material';
 import { useDispatch, useSelector } from 'react-redux';
-import { handleLogout , setMode } from 'redux/slice'
+import { handleLogout, setMode } from 'redux/slice'
 import { useNavigate } from 'react-router-dom';
 import FlexBetween from 'component/FlexBetween';
 export default function Navbar() {
@@ -24,7 +24,7 @@ export default function Navbar() {
         <Typography
           fontWeight='bold'
           fontSize='clamp(1rem, 2rem, 2.25rem)'
-          onClick={() => navigate('/home')}
+          onClick={() => navigate('/')}
           sx={{
             "&:hover": {
               color: primaryLight,
@@ -34,7 +34,12 @@ export default function Navbar() {
           Sociopedia
         </Typography>
         {isNonMobileScreen && (
-          <FlexBetween backgroundColor={neutralLight} borderRadius='9px' padding='0.1rem 1.5rem' gap='3rem' >
+          <FlexBetween
+            backgroundColor={neutralLight}
+            borderRadius='9px'
+            padding='0.1rem 1.5rem'
+            gap='3rem'
+          >
             <InputBase placeholder='Search...' />
             <IconButton>
               <Search />
@@ -43,8 +48,8 @@ export default function Navbar() {
         )}
       </FlexBetween>
       {/* DESKTOP NAV */}
-      {isNonMobileScreen
-        ? <FlexBetween gap='2rem'>
+      {isNonMobileScreen ?
+        <FlexBetween gap='2rem'>
           <IconButton onClick={() => dispatch(setMode())}>
             {palette.mode === 'dark'
               ? <DarkMode sx={{ fontSize: '25px' }} />
@@ -75,17 +80,17 @@ export default function Navbar() {
               <MenuItem value={fullname}>
                 <Typography>{fullname}</Typography>
               </MenuItem>
-              <MenuItem onClick={() => {dispatch(handleLogout())}}> 
-                Logout 
+              <MenuItem onClick={() => { dispatch(handleLogout()) }}>
+                Logout
               </MenuItem>
             </Select>
           </FormControl>
         </FlexBetween >
         :
-         <IconButton 
-            onClick={() => setIsMobileMenuToggled(!isMobileMenuToggled)}
-          >
-            <Menu />
+        <IconButton
+          onClick={() => setIsMobileMenuToggled(!isMobileMenuToggled)}
+        >
+          <Menu />
         </IconButton>
       }
       {/* MOBILE NAV */}
