@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import Dropzone from 'react-dropzone';
 import FlexBetween from 'component/FlexBetween'
 import axiosClient from 'api/api.config';
+import { toast } from 'react-toastify';
 const registerSchema = yup.object().shape({
   firstName: yup.string().required('required'),
   lastName: yup.string().required('required'),
@@ -58,7 +59,7 @@ export default function Form() {
         setPageType("Login");
       }
     } catch (error) {
-      throw new Error(error)
+      toast.error(error.response.data.msg)
     }
   };
   const login = async (values, onSubmitProps) => {
@@ -67,10 +68,9 @@ export default function Form() {
       const { data } = await axiosClient.post('/auth/login', dataLogin )
       onSubmitProps.resetForm();
       dispatch(handleLogin({ user: data.user, token: data.token }));
-      localStorage.setItem('token', data.token);
       navigate('home');
     } catch (error) {
-      console.log(error)
+      toast.error(error.response.data.msg)
     }
   };
   const handleFormSubmit = async (values, onSubmitProps) => {

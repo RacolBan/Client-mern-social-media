@@ -23,6 +23,7 @@ export default function ProfilePage() {
   };
   useEffect(() => {
     getUser();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   if(!user) return null;
   return (
@@ -33,14 +34,14 @@ export default function ProfilePage() {
           width='100%'
           p='2rem 6%'
           gap='0.5rem'
-          justifyContent='center'
+          justifyContent='space-evenly'
         >
-          <Box flexbasic={isNonMobileScreen ? '26%' : undefined}>
+          <Box flexBasis={isNonMobileScreen ? '26%' : undefined}>
             <UserWidget userId={userId} picturePath={user.picturePath} />
             <Box m='2rem 0' />
             <FriendListWidget userId={userId} />
           </Box>
-          <Box flexbasic={isNonMobileScreen ? '42%' : undefined} mt={isNonMobileScreen ? undefined : '2rem'}
+          <Box flexBasis={isNonMobileScreen ? '42%' : undefined} mt={isNonMobileScreen ? undefined : '2rem'}
           >
             <MyPostWidgets picturePath={user.picturePath} />
             <Box m='2rem 0' />

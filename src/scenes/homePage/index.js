@@ -20,18 +20,18 @@ export default function HomePage() {
         gap='0.5rem'
         justifyContent='space-between'
       >
-        <Box flexbasic={isNonMobileScreen ? '26%' : undefined}>
+        <Box flexBasis={isNonMobileScreen ? "26%" : undefined}>
           <UserWidget userId={_id} picturePath={picturePath} />
         </Box>
         <Box
-          flexbasic={isNonMobileScreen ? '42%' : undefined}
+          flexBasis={isNonMobileScreen ? '42%' : undefined}
           mt={isNonMobileScreen ? undefined : '2rem'}
         >
           <MyPostWidgets picturePath={picturePath} />
           <PostsWidget userId={_id} />
         </Box>
         {isNonMobileScreen &&
-          <Box flexbasic='26%'>
+          <Box flexBasis='26%'>
             <AdverWidget />
             <Box m='2rem 0' />
             <FriendListWidget userId={_id} />

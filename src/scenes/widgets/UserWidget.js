@@ -3,9 +3,10 @@ import { ManageAccountsOutlined, EditOutlined, LocationOnOutlined, WorkOutlineOu
 import UserImage from 'component/UserImage';
 import WidgetWrapper from 'component/WidgetWrapper';
 import FlexBetween from 'component/FlexBetween';
-import { memo, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import axiosClient from 'api/api.config';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const UserWidget = ({ userId, picturePath }) => {
   const [user, setUser] = useState(null);
@@ -15,8 +16,12 @@ const UserWidget = ({ userId, picturePath }) => {
   const main = palette.neutral.main;
   const navigate = useNavigate();
   const getUser = async () => {
-    const { data } = await axiosClient.get(`/user/${userId}`);
-    setUser(data);
+    try {
+      const { data } = await axiosClient.get(`/user/${userId}`);
+      setUser(data);
+    } catch (error) {
+      toast.error(error.response.data.message);
+    }
   };
   useEffect(() => {
     getUser();
@@ -33,7 +38,11 @@ const UserWidget = ({ userId, picturePath }) => {
   return (
     <WidgetWrapper>
       {/* FIRST ROW */}
-      <FlexBetween gap='0.5rem' pb='1.1rem' onClick={() => navigate(`/profile/${userId}`)}>
+      <FlexBetween 
+        gap='0.5rem' 
+        pb='1.1rem' 
+        onClick={() => navigate(`/profile/${userId}`)}
+      >
         <FlexBetween gap='1rem'>
           <UserImage image={picturePath} />
           <Box>
@@ -108,4 +117,4 @@ const UserWidget = ({ userId, picturePath }) => {
     </WidgetWrapper>
   )
 };
-export default memo(UserWidget);
+export default UserWidget;

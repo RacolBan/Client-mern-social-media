@@ -1,2 +1,2 @@
 const post= '';
-console.log(!post);
+console.log(process.env.REACT_APP_URL_SERVER);

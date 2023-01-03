@@ -1,16 +1,15 @@
-import { Button, Divider, IconButton, InputBase, Typography, useMediaQuery, useTheme } from '@mui/material';
+import { Button, Divider, Box, IconButton, InputBase, Typography, useMediaQuery, useTheme } from '@mui/material';
 import axiosClient from 'api/api.config';
-import React, { memo, useState } from 'react'
+import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { setPosts } from 'redux/slice';
 import WidgetWrapper from 'component/WidgetWrapper';
 import FlexBetween from 'component/FlexBetween';
 import UserImage from 'component/UserImage';
-import { Box } from '@mui/system';
 import Dropzone from 'react-dropzone';
 import { AttachFileOutlined, DeleteOutlined, EditOutlined, GifBoxOutlined, ImageOutlined, MicOutlined, MoreHorizOutlined } from '@mui/icons-material';
-import PostsWidget from './PostsWidget';
-export default memo(function MyPostWidgets({ picturePath }) {
+import { toast } from 'react-toastify';
+export default function MyPostWidgets({ picturePath }) {
   const { palette } = useTheme();
   const dispatch = useDispatch();
   const [image, setImage] = useState(null);
@@ -22,17 +21,22 @@ export default memo(function MyPostWidgets({ picturePath }) {
   const medium = palette.neutral.medium;
 
   const handlePost = async () => {
-    const formData = new FormData();
-    formData.append('userId', _id)
-    formData.append('description', post)
-    if (image) {
-      formData.append('picture', image)
-      formData.append('picturePath', image.name)
-    };
-    const { data } = await axiosClient.post('/post', formData);
-    dispatch(setPosts({ posts: data }))
-    setImage(null);
-    setPost('');
+    try {
+      const formData = new FormData();
+      formData.append('userId', _id)
+      formData.append('description', post)
+      if (image) {
+        formData.append('picture', image)
+        formData.append('picturePath', image.name)
+      };
+      const { data } = await axiosClient.post('/post', formData);
+      dispatch(setPosts({ posts: data }))
+      setImage(null);
+      setPost('');
+    } catch (error) {
+      toast.error(error.response.data.msg)
+    }
+   
   }
   return (
     <WidgetWrapper>
@@ -167,7 +171,6 @@ export default memo(function MyPostWidgets({ picturePath }) {
           POST
         </Button>
       </FlexBetween>
-      <PostsWidget userId={_id} />
     </WidgetWrapper>
   )
-});
+};

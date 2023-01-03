@@ -1,20 +1,19 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import axiosClient from 'api/api.config';
-import React, { memo, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { toast } from 'react-toastify';
 import { setPosts } from 'redux/slice';
 import PostWidget from './PostWidget';
-export default memo(function PostsWidget({userId, isProfile = false}) {
-  console.log(isProfile)
+export default function PostsWidget({userId, isProfile = false}) {
   const dispatch = useDispatch();
   const posts = useSelector(state => state.posts);
-  console.log(posts);
   const getPosts = async () => {
     try { 
       const {data} = await axiosClient.get('/post');
       dispatch(setPosts({posts: data}));
     } catch(error) {
-      console.error(error)
+      toast.error(error.response.data.msg)
     };
   }
   const getUserPosts = async () => {
@@ -22,7 +21,7 @@ export default memo(function PostsWidget({userId, isProfile = false}) {
       const {data} = await axiosClient.get(`post/${userId}`);
       dispatch(setPosts({posts: data}));
     } catch (error) {
-      console.error(error)
+      toast.error(error.response.data.msg)
     }
   };
   useEffect(() => {
@@ -59,4 +58,4 @@ export default memo(function PostsWidget({userId, isProfile = false}) {
       ))}   
     </>
   )
-});
+};

@@ -19,11 +19,16 @@ export default function Friend({ friendId, name, subtitle, userPicturePath }) {
   const primaryDark = palette.primary.dark;
   const main = palette.neutral.main;
   const medium = palette.neutral.medium;
-  const isFriend = friends.find(friend => friend._id === friendId)
+  const isFriend = friends?.find(friend => friend._id === friendId);
+  const isYourSelf = Boolean(_id === friendId);
 
   const patchFriend = async () => {
-    const { data } = await axiosClient.patch(`/user/${_id}/${friendId}`);
-    dispatch(setFriends({ friends: data }));
+    try {
+      const { data } = await axiosClient.patch(`/user/${_id}/${friendId}`);
+      dispatch(setFriends({ friends: data }));
+    } catch (error) {
+      console.error(error);
+    };
   };
   return (
     <FlexBetween>
@@ -49,20 +54,26 @@ export default function Friend({ friendId, name, subtitle, userPicturePath }) {
           </Typography>
         </Box>
       </FlexBetween>
-      <IconButton
-        onClick={() => patchFriend()}
-        sx={{
-          backgroundColor: primaryLight,
-          p: '0.6rem'
-        }}
-      >
-        {isFriend ? (
-          <PersonRemoveOutlined sx={{ color: primaryDark }} />
-        ) : (
-          <PersonAddOutlined sx={{ color: primaryDark }} />
-        )
-        }
-      </IconButton>
+
+      {isYourSelf ? (
+        <></>
+      ) : (
+        <IconButton
+          onClick={() => patchFriend()}
+          sx={{
+            backgroundColor: primaryLight,
+            p: '0.6rem'
+          }}
+        >
+          {isFriend ? (
+            <PersonRemoveOutlined sx={{ color: primaryDark }} />
+          ) : (
+            <PersonAddOutlined sx={{ color: primaryDark }} />
+          )
+          }
+        </IconButton>
+      )}
+
     </FlexBetween>
   )
 }
