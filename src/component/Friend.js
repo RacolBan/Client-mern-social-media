@@ -1,17 +1,19 @@
-import { PersonAddOutlined, PersonRemoveOutlined } from '@mui/icons-material';
+import { DeleteOutlineOutlined, PersonAddOutlined, PersonRemoveOutlined } from '@mui/icons-material';
 import { IconButton, Typography, useTheme } from '@mui/material';
 import { Box } from '@mui/system';
 import axiosClient from 'api/api.config';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { setFriends } from 'redux/slice';
+import { toast } from 'react-toastify';
+import { setFriends, setPosts } from 'redux/slice';
 import FlexBetween from './FlexBetween';
 import UserImage from './UserImage';
 
-export default function Friend({ friendId, name, subtitle, userPicturePath }) {
+export default function Friend({ userId, postId, friendId, name, subtitle, userPicturePath }) {
   const dispatch = useDispatch();
   const { _id } = useSelector(state => state.user);
+  console.log(_id)
   const { friends } = useSelector(state => state.user);
   const navigate = useNavigate();
   const { palette } = useTheme();
@@ -29,6 +31,15 @@ export default function Friend({ friendId, name, subtitle, userPicturePath }) {
     } catch (error) {
       console.error(error);
     };
+  };
+  const deletePost = async () => {
+    try {
+      const { data } = await axiosClient.delete(`/post/${postId}/${_id}/delete`);
+      dispatch(setPosts({ posts: data }));
+      toast.success('delete succesfully');
+    } catch(error) {
+      toast.error(error.response.data.msg);
+    }
   };
   return (
     <FlexBetween>
@@ -56,7 +67,11 @@ export default function Friend({ friendId, name, subtitle, userPicturePath }) {
       </FlexBetween>
 
       {isYourSelf ? (
-        <></>
+        <>
+          <IconButton onClick={() => deletePost()}>
+            <DeleteOutlineOutlined />
+          </IconButton>
+        </>
       ) : (
         <IconButton
           onClick={() => patchFriend()}

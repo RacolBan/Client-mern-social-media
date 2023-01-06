@@ -39,7 +39,7 @@ export default memo(function PostWidget(props) {
   };
   return (
     <WidgetWrapper m='2rem 0'>
-      <Friend userPicturePath={userPicturePath} name={name} friendId={postUserId} subtitle={location} />
+      <Friend userPicturePath={userPicturePath} name={name} friendId={postUserId} subtitle={location} postId={postId} />
       <Typography
         color={main}
         sx={{ mt: '1rem' }}
