@@ -10,7 +10,7 @@ import { setFriends, setPosts } from 'redux/slice';
 import FlexBetween from './FlexBetween';
 import UserImage from './UserImage';
 
-export default function Friend({ userId, postId, friendId, name, subtitle, userPicturePath }) {
+export default function Friend({ postId, friendId, name, subtitle, userPicturePath }) {
   const dispatch = useDispatch();
   const { _id } = useSelector(state => state.user);
   console.log(_id)
